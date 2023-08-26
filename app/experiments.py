@@ -1,9 +1,11 @@
 import pandas as pd
 from collections import defaultdict
 from collections import Counter
+import json
 
 from db.connection import Database
 from db.models import Insights as InsightsDB
+from db.schema import InsightsSchema
 
 
 class UserExperiments:
@@ -26,18 +28,21 @@ class UserExperiments:
             user_experiments_mapping[user_id].append(record)
         return user_experiments_mapping
 
-    def get_user_experiments_total(self):
+    def get_users_experiments(self):
         user_experiments_mapping = self.get_user_experiments_mapping()
         user_experiments_total = Counter()
         for user_id, experiments in user_experiments_mapping.items():
             user_experiments_total[user_id] = len(experiments)
         return user_experiments_total
 
-    def get_total_experiments(self):
+    def get_experiments_count(self):
         return len(self.user_experiments)
 
-    def get_total_users(self):
-        return len(self.users_df.index)
+    def get_users_count(self):
+        return len(self.get_users())
+
+    def get_users(self):
+        return self.users_df["user_id"].to_list()
 
     def get_most_common_compound(self):
         compound_counter = Counter()
@@ -64,26 +69,35 @@ class UserExperiments:
             user_experiments_mapping[user_id].extend(compounds)
         return user_experiments_mapping
 
+    def get_insights(self):
+        with Database.get_session() as db_session:
+            results = db_session.query(InsightsDB).all()
+            results = InsightsSchema().dump(results, many=True)
+        return results
+
+    def delete_insights(self):
+        with Database.get_session() as db_session:
+            results = db_session.query(InsightsDB).delete()
+            db_session.commit()
+
     def perform_etl(self):
-        """
-        Total experiments a user ran.
-        Average experiments amount per user.
-        User's most commonly experimented compound.
-        """
+        user_experiments = self.get_users_experiments()
 
-        # 1. Total experiments a user ran.
-        user_experiments_total = self.get_user_experiments_total()
-        print(user_experiments_total)
-
-        # 2. Average experiments amount per user.
-        total_experiments = self.get_total_experiments()
-        total_users = self.get_total_users()
-        average_num_experiments_per_user = total_experiments / total_users
-        print(total_experiments, total_users, average_num_experiments_per_user)
-
-        # 3. User's most commonly experimented compound.
         users_most_common_compound = self.get_users_most_common_compound()
-        print(users_most_common_compound)
 
-        db_session = Database.get_session()
-        print(db_session.query(InsightsDB).all())
+        insights = {}
+        users = self.get_users()
+        experiments_count = self.get_experiments_count()
+
+        with Database.get_session() as db_session:
+            for user_id in users:
+                insights[user_id] = {
+                    "total_experiments": user_experiments.get(user_id, 0),
+                    "average_num_experiments": user_experiments.get(user_id, 0)
+                    / experiments_count,
+                    "most_common_compound": users_most_common_compound.get(user_id),
+                }
+                db_session.add(
+                    InsightsDB(user_id=user_id, user_insights=insights[user_id])
+                )
+            db_session.commit()

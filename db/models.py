@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Text
+from sqlalchemy import Column, Integer, String, JSON, text
 from sqlalchemy.ext.declarative import declarative_base
 
 from .connection import Database
@@ -15,8 +15,14 @@ class Insights(Base):
     __tablename__ = "insights"
 
     user_id = Column(String(17), primary_key=True)
-    insights = Column(Text(255))
+    user_insights = Column(JSON)
 
 
+import psycopg2
+import time
+
+while True:
+    if Database.wait_for_database():
+        break
 # Create the tables
 Base.metadata.create_all(bind=Database.get_engine())

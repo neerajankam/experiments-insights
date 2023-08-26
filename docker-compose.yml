@@ -2,6 +2,8 @@ version: '3'
 services:
   postgres:
     image: postgres:13-alpine
+    ports:
+      - "5432:5432"
     environment:
       POSTGRES_USER: myuser
       POSTGRES_PASSWORD: mypassword
@@ -11,5 +13,9 @@ services:
     build: .
     ports:
       - "5000:5000"
+    volumes:
+      - ./app:/app/app
+      - ./db:/app/db
+    # command: ["python", "wait-for-postgres.py"]
     depends_on:
       - postgres

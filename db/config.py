@@ -1,4 +1,4 @@
-DATABASE_PATH = "0.0.0.0/5432"
+DATABASE_PATH = "postgres:5432"
 DATABASE_NAME = "mydatabase"
 USER_NAME = "myuser"
 USER_PASSWORD = "mypassword"
