@@ -1,26 +1,21 @@
 from flask import Flask, request, jsonify
 
-from experiments import UserExperiments
+from insights import Insights
 
-user_experiments = UserExperiments()
+insights_cls = Insights()
 app = Flask(__name__)
 
 
 @app.route("/insights", methods=["POST", "GET", "DELETE"])
 def trigger_etl():
     if request.method == "POST":
-        user_experiments.perform_etl()
+        insights_cls.perform_etl()
         return jsonify({"message": "ETL process started"}), 200
     elif request.method == "GET":
-        return jsonify(user_experiments.get_insights())
+        return jsonify(insights_cls.get_insights())
     elif request.method == "DELETE":
-        user_experiments.delete_insights()
+        insights_cls.delete_insights()
         return jsonify({"message": "Successfully deleted insights"}), 200
-
-
-@app.route("/compounds", methods=["GET"])
-def get_compounds():
-    print(user_experiments.compounds_dict)
 
 
 if __name__ == "__main__":

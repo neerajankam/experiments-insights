@@ -1,0 +1,82 @@
+[
+    {
+        "user_insights": {
+            "average_num_experiments": 0.18181818181818182,
+            "most_common_compound": "Compound B",
+            "total_experiments": 2
+        },
+        "user_name": "Alice"
+    },
+    {
+        "user_insights": {
+            "average_num_experiments": 0.09090909090909091,
+            "most_common_compound": "Compound A",
+            "total_experiments": 1
+        },
+        "user_name": "Bob"
+    },
+    {
+        "user_insights": {
+            "average_num_experiments": 0.09090909090909091,
+            "most_common_compound": "Compound B",
+            "total_experiments": 1
+        },
+        "user_name": "Carol"
+    },
+    {
+        "user_insights": {
+            "average_num_experiments": 0.09090909090909091,
+            "most_common_compound": "Compound A",
+            "total_experiments": 1
+        },
+        "user_name": "Dave"
+    },
+    {
+        "user_insights": {
+            "average_num_experiments": 0.09090909090909091,
+            "most_common_compound": "Compound B",
+            "total_experiments": 1
+        },
+        "user_name": "Eve"
+    },
+    {
+        "user_insights": {
+            "average_num_experiments": 0.09090909090909091,
+            "most_common_compound": "Compound A",
+            "total_experiments": 1
+        },
+        "user_name": "Frank"
+    },
+    {
+        "user_insights": {
+            "average_num_experiments": 0.09090909090909091,
+            "most_common_compound": "Compound B",
+            "total_experiments": 1
+        },
+        "user_name": "Grace"
+    },
+    {
+        "user_insights": {
+            "average_num_experiments": 0.09090909090909091,
+            "most_common_compound": "Compound A",
+            "total_experiments": 1
+        },
+        "user_name": "Heidi"
+    },
+    {
+        "user_insights": {
+            "average_num_experiments": 0.09090909090909091,
+            "most_common_compound": "Compound B",
+            "total_experiments": 1
+        },
+        "user_name": "Ivan"
+    },
+    {
+        "user_insights": {
+            "average_num_experiments": 0.09090909090909091,
+            "most_common_compound": "Compound A",
+            "total_experiments": 1
+        },
+        "user_name": "Judy"
+    }
+]

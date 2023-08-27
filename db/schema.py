@@ -8,5 +8,5 @@ class JSONField(fields.Field):
 
 
 class InsightsSchema(Schema):
-    user_id = fields.Str()
+    user_name = fields.Str()
     user_insights = JSONField()

@@ -14,7 +14,7 @@ class Insights(Base):
 
     __tablename__ = "insights"
 
-    user_id = Column(String(17), primary_key=True)
+    user_name = Column(String(17), primary_key=True)
     user_insights = Column(JSON)
 
 
