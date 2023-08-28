@@ -1,6 +1,8 @@
 from flask import Flask, request, jsonify
+from sqlalchemy.exc import SQLAlchemyError
 
 from insights import Insights
+
 
 insights_cls = Insights()
 app = Flask(__name__)
@@ -16,6 +18,11 @@ def trigger_etl():
     elif request.method == "DELETE":
         insights_cls.delete_insights()
         return jsonify({"message": "Successfully deleted insights"}), 200
+
+
+@app.errorhandler(SQLAlchemyError)
+def handle_database_error():
+    return jsonify({"message": "Internal server error"}), 500
 
 
 if __name__ == "__main__":
